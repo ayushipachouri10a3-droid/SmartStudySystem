@@ -3,47 +3,1014 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Study System</title>
+    <title>Smart Study & Coding Assessment System | Core Java Desktop Platform</title>
+    <meta name="description" content="A powerful academic desktop assessment platform engineered entirely in Core Java, Swing, and AWT for Computer Science and Engineering students.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg-dark: #0b1120;
+            --bg-card: #151e32;
+            --bg-card-hover: #1c2742;
+            --border-subtle: #24324f;
+            --border-highlight: #3b82f6;
+            --accent-blue: #3b82f6;
+            --accent-cyan: #06b6d4;
+            --accent-green: #10b981;
+            --accent-amber: #f59e0b;
+            --accent-purple: #8b5cf6;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --text-dim: #64748b;
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+            --glow-blue: rgba(59, 130, 246, 0.25);
+            --glow-cyan: rgba(6, 182, 212, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #141e30, #243b55);
-            color: white;
-            text-align: center;
-            padding: 100px 20px;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(ellipse 80% 50% at 50% -20%, rgba(59, 130, 246, 0.2), transparent 70%),
+                radial-gradient(ellipse 60% 40% at 85% 60%, rgba(6, 182, 212, 0.08), transparent 60%);
+            background-attachment: fixed;
         }
+
+        /* Container */
         .container {
-            max-width: 600px;
-            margin: auto;
-            padding: 40px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 20px;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
         }
-        h1 { color: #65d6ff; }
-        p { line-height: 1.7; }
-        a {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 15px 30px;
-            background: #00b894;
-            color: white;
+
+        /* Top Navigation Bar */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            background: rgba(11, 17, 32, 0.85);
+            border-bottom: 1px solid rgba(36, 50, 79, 0.8);
+            transition: all 0.3s ease;
+        }
+
+        .nav-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 76px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
             text-decoration: none;
-            border-radius: 8px;
-            font-weight: bold;
+            color: var(--text-main);
+            font-weight: 700;
+            font-size: 1.25rem;
+            letter-spacing: -0.02em;
         }
-        a:hover { background: #009874; }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 14px var(--glow-blue);
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 800;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+            list-style: none;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--text-main);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px 26px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: var(--radius-sm);
+            text-decoration: none;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: white;
+            box-shadow: 0 4px 18px rgba(37, 99, 235, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.5);
+        }
+
+        .btn-secondary {
+            background: var(--bg-card);
+            color: var(--text-main);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--text-muted);
+            transform: translateY(-2px);
+        }
+
+        .btn-lg {
+            padding: 16px 36px;
+            font-size: 1.08rem;
+            border-radius: var(--radius-md);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 90px 0 70px;
+            text-align: center;
+            position: relative;
+        }
+
+        .badge-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 16px;
+            border-radius: 9999px;
+            background: rgba(59, 130, 246, 0.12);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            color: #60a5fa;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+        }
+
+        .hero h1 {
+            font-size: 3.4rem;
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: -0.03em;
+            margin-bottom: 22px;
+            background: linear-gradient(180deg, #ffffff 30%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero h1 span.gradient-text {
+            background: linear-gradient(135deg, #60a5fa 0%, #06b6d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-desc {
+            max-width: 740px;
+            margin: 0 auto 38px;
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+            font-weight: 400;
+        }
+
+        .hero-actions {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 18px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .version-tag {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* App Preview Mockup */
+        .app-preview-wrapper {
+            margin: 50px auto 30px;
+            max-width: 1000px;
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7), 0 0 40px rgba(59, 130, 246, 0.15);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .window-bar {
+            background: #0f172a;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .window-controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        .control-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .dot-red { background: #ef4444; }
+        .dot-yellow { background: #f59e0b; }
+        .dot-green { background: #10b981; }
+
+        .window-title {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .mockup-body {
+            padding: 30px;
+            background: linear-gradient(180deg, #131b2e 0%, #0d1424 100%);
+        }
+
+        .mockup-header-tabs {
+            display: flex;
+            gap: 10px;
+            border-bottom: 1px solid var(--border-subtle);
+            padding-bottom: 16px;
+            margin-bottom: 24px;
+            overflow-x: auto;
+        }
+
+        .mockup-tab {
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            font-weight: 600;
+            background: rgba(30, 41, 59, 0.6);
+            color: var(--text-muted);
+            border: 1px solid var(--border-subtle);
+            white-space: nowrap;
+        }
+
+        .mockup-tab.active {
+            background: var(--accent-blue);
+            color: white;
+            border-color: var(--accent-blue);
+        }
+
+        .mockup-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 18px;
+            text-align: left;
+        }
+
+        .stat-box .label {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 6px;
+        }
+
+        .stat-box .val {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .stat-box .val.cyan { color: var(--accent-cyan); }
+        .stat-box .val.green { color: var(--accent-green); }
+        .stat-box .val.amber { color: var(--accent-amber); }
+        .stat-box .val.blue { color: var(--accent-blue); }
+
+        .mockup-cbt-preview {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            text-align: left;
+        }
+
+        .cbt-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .cbt-tag {
+            background: rgba(59, 130, 246, 0.2);
+            color: #93c5fd;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .timer-badge {
+            background: rgba(245, 158, 11, 0.15);
+            color: #fbbf24;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .cbt-q {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 16px;
+        }
+
+        .cbt-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .cbt-opt {
+            background: #0f172a;
+            border: 1px solid var(--border-subtle);
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .cbt-opt.selected {
+            border-color: var(--accent-cyan);
+            background: rgba(6, 182, 212, 0.1);
+            color: #e0f2fe;
+        }
+
+        /* Features Section */
+        .section {
+            padding: 90px 0;
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 680px;
+            margin: 0 auto 60px;
+        }
+
+        .section-subtitle {
+            text-transform: uppercase;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            letter-spacing: 0.08em;
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-size: 2.4rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 16px;
+            color: var(--text-main);
+        }
+
+        .section-desc {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 32px 28px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(59, 130, 246, 0.5);
+            box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.5);
+        }
+
+        .feature-icon-box {
+            width: 52px;
+            height: 52px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 22px;
+        }
+
+        .icon-blue { background: rgba(59, 130, 246, 0.15); color: #60a5fa; }
+        .icon-cyan { background: rgba(6, 182, 212, 0.15); color: #22d3ee; }
+        .icon-green { background: rgba(16, 185, 129, 0.15); color: #34d399; }
+        .icon-amber { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+        .icon-purple { background: rgba(139, 92, 246, 0.15); color: #a78bfa; }
+        .icon-red { background: rgba(239, 68, 68, 0.15); color: #f87171; }
+
+        .feature-card h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text-main);
+        }
+
+        .feature-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Disciplines Matrix */
+        .curriculum-section {
+            background: rgba(15, 23, 42, 0.5);
+            border-top: 1px solid var(--border-subtle);
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 80px 0;
+        }
+
+        .disciplines-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 14px;
+        }
+
+        .discipline-pill {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            padding: 14px 18px;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-main);
+            transition: all 0.2s ease;
+        }
+
+        .discipline-pill:hover {
+            border-color: var(--accent-cyan);
+            background: var(--bg-card-hover);
+            transform: translateX(4px);
+        }
+
+        .discipline-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-cyan);
+        }
+
+        /* Installation Guide Section */
+        .guide-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 44px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .steps-list {
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+            margin-top: 36px;
+        }
+
+        .step-item {
+            display: flex;
+            gap: 22px;
+            align-items: flex-start;
+        }
+
+        .step-num {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            color: white;
+            font-weight: 800;
+            font-size: 1.2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px var(--glow-blue);
+        }
+
+        .step-content h4 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--text-main);
+        }
+
+        .step-content p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+        }
+
+        .code-snippet {
+            background: #090e1a;
+            border: 1px solid var(--border-subtle);
+            padding: 12px 18px;
+            border-radius: var(--radius-sm);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: #38bdf8;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            overflow-x: auto;
+        }
+
+        .code-copy-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 0.8rem;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .code-copy-btn:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Download Banner / CTA */
+        .cta-banner {
+            background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+            border: 1px solid rgba(59, 130, 246, 0.4);
+            border-radius: var(--radius-lg);
+            padding: 60px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            margin: 60px 0;
+        }
+
+        .cta-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .cta-banner h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            color: white;
+        }
+
+        .cta-banner p {
+            font-size: 1.15rem;
+            color: #bfdbfe;
+            max-width: 620px;
+            margin: 0 auto 34px;
+        }
+
+        .meta-badges {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 24px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            flex-wrap: wrap;
+        }
+
+        .meta-badge-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border-subtle);
+            background: #090e1a;
+            padding: 50px 0 35px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .footer-grid {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid rgba(36, 50, 79, 0.5);
+            margin-bottom: 30px;
+        }
+
+        .footer-brand {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .footer-copy {
+            text-align: center;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            line-height: 1.7;
+        }
+
+        .footer-tech-tag {
+            display: inline-block;
+            background: rgba(36, 50, 79, 0.6);
+            color: #cbd5e1;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .hero h1 { font-size: 2.6rem; }
+            .features-grid { grid-template-columns: repeat(2, 1fr); }
+            .mockup-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero h1 { font-size: 2.1rem; }
+            .hero-desc { font-size: 1.05rem; }
+            .features-grid { grid-template-columns: 1fr; }
+            .cbt-options { grid-template-columns: 1fr; }
+            .guide-box { padding: 24px; }
+            .cta-banner { padding: 40px 20px; }
+            .cta-banner h2 { font-size: 1.9rem; }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Smart Study System</h1>
-        <p>Your smart companion for productive learning.</p>
-        <p>Manage your study sessions, practise questions
-        and improve your preparation with Java.</p>
-        <a href="SmartStudySystem.jar" download>
-            Download Smart Study System
-        </a>
-        <p>Developed using Core Java and Swing.</p>
-    </div>
+
+    <!-- Top Navigation Bar -->
+    <header class="navbar">
+        <div class="container nav-inner">
+            <a href="#" class="brand">
+                <div class="brand-icon">S</div>
+                <span>SmartStudySystem</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#features" class="nav-link">Features</a></li>
+                <li><a href="#curriculum" class="nav-link">Question Bank</a></li>
+                <li><a href="#instructions" class="nav-link">Installation Guide</a></li>
+                <li><a href="https://github.com/ayushipachouri10a3-droid/SmartStudySystem" target="_blank" rel="noopener noreferrer" class="nav-link">GitHub</a></li>
+            </ul>
+            <a href="./SmartStudySystem.jar" download="SmartStudySystem.jar" class="btn btn-primary" id="nav-download-btn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                Download JAR
+            </a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="badge-pill">
+                <span>⚡ Core Java Desktop Application</span>
+            </div>
+            <h1>Smart Study & <span class="gradient-text">Coding Assessment</span> System</h1>
+            <p class="hero-desc">
+                An academic assessment and study optimization desktop suite engineered in <strong>Core Java</strong> using <strong>Swing & AWT</strong>. Designed for Computer Science & Engineering students to master coding concepts with zero external dependencies.
+            </p>
+            <div class="hero-actions">
+                <a href="./SmartStudySystem.jar" download="SmartStudySystem.jar" class="btn btn-primary btn-lg" id="hero-download-btn">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    Download Application (SmartStudySystem.jar)
+                </a>
+                <a href="#instructions" class="btn btn-secondary btn-lg">
+                    Setup & Instructions
+                </a>
+            </div>
+            <div class="version-tag">
+                Executable JAR • Standalone Desktop Application • Zero Setup Dependencies
+            </div>
+
+            <!-- App Mockup Preview -->
+            <div class="app-preview-wrapper">
+                <div class="window-bar">
+                    <div class="window-controls">
+                        <span class="control-dot dot-red"></span>
+                        <span class="control-dot dot-yellow"></span>
+                        <span class="control-dot dot-green"></span>
+                    </div>
+                    <div class="window-title">
+                        <span>SmartStudySystem.jar [Java Swing Desktop Interface]</span>
+                    </div>
+                    <div style="width: 40px;"></div>
+                </div>
+                <div class="mockup-body">
+                    <div class="mockup-header-tabs">
+                        <div class="mockup-tab active">📊 [Dashboard]</div>
+                        <div class="mockup-tab">⏱️ [Study Timer]</div>
+                        <div class="mockup-tab">📝 [Assessment]</div>
+                        <div class="mockup-tab">📈 [Results / Review]</div>
+                        <div class="mockup-tab">ℹ️ [About Project]</div>
+                    </div>
+                    <div class="mockup-grid">
+                        <div class="stat-box">
+                            <div class="label">Question Pool</div>
+                            <div class="val cyan">170 Qs</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="label">Curriculum</div>
+                            <div class="val blue">17 Subjects</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="label">Duration</div>
+                            <div class="val amber">15 Min / Test</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="label">Test Engine</div>
+                            <div class="val green">CBT Active</div>
+                        </div>
+                    </div>
+                    <div class="mockup-cbt-preview">
+                        <div class="cbt-meta">
+                            <span class="cbt-tag">Subject: Data Structures & Algorithms</span>
+                            <span class="timer-badge">⏳ 14:48 Remaining</span>
+                        </div>
+                        <div class="cbt-q">
+                            Q3: What is the worst-case time complexity of QuickSort when the pivot is always the smallest element?
+                        </div>
+                        <div class="cbt-options">
+                            <div class="cbt-opt">A) O(N log N)</div>
+                            <div class="cbt-opt selected">B) O(N²) [Selected]</div>
+                            <div class="cbt-opt">C) O(log N)</div>
+                            <div class="cbt-opt">D) O(N)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section" id="features">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-subtitle">Engineered for Performance</div>
+                <h2 class="section-title">Core Desktop Capabilities</h2>
+                <p class="section-desc">Built with native Java AWT & Swing components to deliver high-performance, instant responsiveness, and zero bloated runtimes.</p>
+            </div>
+
+            <div class="features-grid">
+                <!-- Feature 1 -->
+                <div class="feature-card">
+                    <div class="feature-icon-box icon-blue">🎯</div>
+                    <h3>Computer-Based Testing (CBT)</h3>
+                    <p>Instant 10-question palette with color-coded answer tracking (Green = Answered, Slate = Unvisited, Blue = Active). Jump between questions anytime with live persistence.</p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="feature-card">
+                    <div class="feature-icon-box icon-cyan">⏱️</div>
+                    <h3>Pomodoro Study Timer</h3>
+                    <p>Built-in study timer supporting quick presets (15m, 25m, 45m, 60m) or custom durations up to 180 minutes with visual progress animation and audio completion chimes.</p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="feature-card">
+                    <div class="feature-icon-box icon-green">📊</div>
+                    <h3>Instant Results & Analytics</h3>
+                    <p>Real-time scorecard with percentage accuracy, performance rating tiers, time metrics, and in-depth engineering explanations with code samples for every question.</p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="feature-card">
+                    <div class="feature-icon-box icon-amber">🔀</div>
+                    <h3>Anti-Repetition Question Engine</h3>
+                    <p>Algorithmic randomizer picks questions across 10 distinct subjects per session with a 40-question rolling history to prevent repeat questions on consecutive test attempts.</p>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="feature-card">
+                    <div class="feature-icon-box icon-purple">⚡</div>
+                    <h3>Pure Core Java (Zero Bloat)</h3>
+                    <p>100% native standard JDK libraries. No heavyweight Electron wrappers, no external package managers, and zero telemetry. Instant sub-second startup.</p>
+                </div>
+
+                <!-- Feature 6 -->
+                <div class="feature-card">
+                    <div class="feature-icon-box icon-red">🎨</div>
+                    <h3>Modern Custom UI Theme</h3>
+                    <p>Custom 2D graphics with anti-aliasing, rounded geometry, modern slate navy dark palette, and clean top-bar desktop navigation designed for extended study sessions.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Curriculum Section -->
+    <section class="curriculum-section" id="curriculum">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-subtitle">Academic Coverage</div>
+                <h2 class="section-title">170 Questions across 17 CS Disciplines</h2>
+                <p class="section-desc">Each test challenges you with MCQs, True/False, Fill in the Blanks, Short Conceptual, and Coding Logic problems across all core engineering domains.</p>
+            </div>
+
+            <div class="disciplines-grid">
+                <div class="discipline-pill"><span class="discipline-dot"></span> Java Programming</div>
+                <div class="discipline-pill"><span class="discipline-dot"></span> C Programming</div>
+                <div class="discipline-pill"><span class="discipline-dot"></span> C++ & STL</div>
+                <div class="discipline-pill"><span class="discipline-dot"></span> Data Structures</div>
+                <div class="discipline-pill"><span class="discipline-dot"></span> Algorithms & Complexity</div>
+                <div class="discipline-pill"><span class="discipline-dot"></span> Object-Oriented (OOP)</div>
+                <div class="discipline-pill"><span class="discipline-dot"></span> Database Systems (DBMS)</div>
+                <div class="discipline-pill"><span class="discipline-dot"></span> SQL & Query Logic</div>
+                <div class="discipline-pill"><span class="discipline-dot"></span> Operating Systems</div>
+                <div class="discipline-pill"><span class="discipline-dot"></span> Computer Networks</div>
+                <div class="discipline-pill"><span class="discipline-dot"></span> Comp. Architecture (COA)</div>
+                <div class="discipline-pill"><span class="discipline-dot"></span> Software Engineering</div>
+                <div class="discipline-pill"><span class="discipline-dot"></span> Computer Graphics</div>
+                <div class="discipline-pill"><span class="discipline-dot"></span> Cybersecurity Basics</div>
+                <div class="discipline-pill"><span class="discipline-dot"></span> Web Fundamentals</div>
+                <div class="discipline-pill"><span class="discipline-dot"></span> Discrete Mathematics</div>
+                <div class="discipline-pill"><span class="discipline-dot"></span> Programming Fundamentals</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installation Instructions Section -->
+    <section class="section" id="instructions">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-subtitle">How To Run The Application</div>
+                <h2 class="section-title">Installation & Execution Guide</h2>
+                <p class="section-desc">Follow these 3 simple steps to download and launch the Smart Study System desktop application on Windows, macOS, or Linux.</p>
+            </div>
+
+            <div class="guide-box">
+                <div class="steps-list">
+                    <!-- Step 1 -->
+                    <div class="step-item">
+                        <div class="step-num">1</div>
+                        <div class="step-content" style="flex: 1;">
+                            <h4>Verify or Install Java</h4>
+                            <p>This is a native Core Java application and requires Java Runtime Environment (JRE) or Java Development Kit (JDK) version 8 or higher installed on your computer.</p>
+                            <div class="code-snippet">
+                                <span>java -version</span>
+                                <button class="code-copy-btn" onclick="navigator.clipboard.writeText('java -version'); this.innerText='Copied!'; setTimeout(()=>this.innerText='Copy', 2000);">Copy</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="step-item">
+                        <div class="step-num">2</div>
+                        <div class="step-content" style="flex: 1;">
+                            <h4>Download the Application JAR</h4>
+                            <p>Click the download button to save <code>SmartStudySystem.jar</code> directly to your computer.</p>
+                            <a href="./SmartStudySystem.jar" download="SmartStudySystem.jar" class="btn btn-primary" style="padding: 10px 20px; font-size: 0.9rem;">
+                                Download SmartStudySystem.jar
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="step-item">
+                        <div class="step-num">3</div>
+                        <div class="step-content" style="flex: 1;">
+                            <h4>Launch the Desktop Application</h4>
+                            <p>On Windows or macOS, you can simply <strong>double-click</strong> <code>SmartStudySystem.jar</code> to launch. Alternatively, open your command prompt/terminal in the downloaded folder and run:</p>
+                            <div class="code-snippet">
+                                <span>java -jar SmartStudySystem.jar</span>
+                                <button class="code-copy-btn" onclick="navigator.clipboard.writeText('java -jar SmartStudySystem.jar'); this.innerText='Copied!'; setTimeout(()=>this.innerText='Copy', 2000);">Copy</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Call to Action Banner -->
+            <div class="cta-banner">
+                <h2>Ready to elevate your study sessions?</h2>
+                <p>Download the free standalone desktop assessment system and prepare for technical interviews and university examinations.</p>
+                <a href="./SmartStudySystem.jar" download="SmartStudySystem.jar" class="btn btn-primary btn-lg" id="cta-download-btn">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    Download SmartStudySystem.jar
+                </a>
+                <div class="meta-badges">
+                    <div class="meta-badge-item"><span>💻</span> Cross-Platform (Windows, Mac, Linux)</div>
+                    <div class="meta-badge-item"><span>☕</span> Requires Java 8+</div>
+                    <div class="meta-badge-item"><span>📦</span> File Size: ~46 KB</div>
+                    <div class="meta-badge-item"><span>🔒</span> 100% Offline & Private</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div class="footer-brand">Smart Study & Coding Assessment System</div>
+                    <p style="margin-top: 6px; font-size: 0.85rem;">Engineered for Computer Science & Engineering Students</p>
+                </div>
+                <div style="display: flex; gap: 16px; align-items: center;">
+                    <a href="./SmartStudySystem.jar" download="SmartStudySystem.jar" class="nav-link" style="color: var(--accent-cyan);">Download JAR</a>
+                    <span style="color: var(--border-subtle);">•</span>
+                    <a href="https://github.com/ayushipachouri10a3-droid/SmartStudySystem" target="_blank" rel="noopener noreferrer" class="nav-link">GitHub Repository</a>
+                </div>
+            </div>
+            <div class="footer-copy">
+                Developed using <span class="footer-tech-tag">Core Java</span> and <span class="footer-tech-tag">Java Swing / AWT</span>.<br>
+                Desktop Application • Pure Standard Library • &copy; Smart Study System
+            </div>
+        </div>
+    </footer>
+
 </body>
 </html>
